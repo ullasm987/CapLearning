@@ -1,0 +1,10 @@
+# GET http://localhost:4004/odata/v4/empdep/testFunction(name='HelloSir')
+
+# POST http://localhost:4004/odata/v4/empdep/myAction
+# Content-Type: application/json
+
+# {
+#     "name":"Ullas Here"
+# }
+
+GET http://localhost:4004/odata/v4/empdep/department
