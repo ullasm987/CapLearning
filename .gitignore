@@ -1,4 +1,5 @@
 # CAP cap1
+.env
 _out
 *.db
 *.sqlite
