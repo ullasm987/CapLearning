@@ -1,10 +1,13 @@
 using emp.db as db from '../db/employee-model';
 
 
-service empdep {
+
+service EmployeeDepartmentService {
     @odata.draft.enabled
-    entity employees  as select from db.EMPLOYEE
-                         // Bound Actions
+
+    // entity employees  as select from db.EMPLOYEE
+    // Bound Actions
+    entity employees  as projection on db.EMPLOYEE
         actions {
             action resign(name: String);
             action createEmployee(name: String);
@@ -17,7 +20,7 @@ service empdep {
 
 }
 
-annotate empdep with @( requires: 'Manager' );
+// annotate empdep with @( requires: 'Manager' );
 
 
 // annotate empdepService.employees with @( //Design Level Annotation

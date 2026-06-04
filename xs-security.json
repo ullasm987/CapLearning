@@ -1,19 +1,19 @@
 {
+  "xsappname": "TestApp",
   "scopes": [
     {
-      "name": "$XSAPPNAME.Manager",
-      "description": "Manager"
+      "name": "$XSAPPNAME.display",
+      "description": "Provides warehouse management access"
     }
   ],
   "attributes": [],
   "role-templates": [
     {
-      "name": "Manager",
-      "description": "generated",
+      "name": "warehouseManager",
+      "description": "Role for warehouse management access",
       "scope-references": [
-        "$XSAPPNAME.Manager"
-      ],
-      "attribute-references": []
+        "$XSAPPNAME.display"
+      ]
     }
   ]
 }

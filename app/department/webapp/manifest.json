@@ -1,7 +1,7 @@
 {
   "_version": "1.85.0",
   "sap.app": {
-    "id": "project1",
+    "id": "department",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.25.0",
-      "toolsId": "ead8848d-41c8-4d3c-8d72-f0a6a5959f38"
+      "toolsId": "b1a05eaa-1a4e-484a-a9af-38c1a7507640"
     },
     "dataSources": {
       "mainService": {
@@ -45,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.148.0",
+      "minUI5Version": "1.148.1",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -60,7 +60,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "project1.i18n.i18n"
+          "bundleName": "department.i18n.i18n"
         }
       },
       "": {
@@ -85,28 +85,33 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "employeesList",
-          "target": "employeesList"
+          "name": "departmentList",
+          "target": "departmentList"
         },
         {
-          "pattern": "employees({key}):?query:",
+          "pattern": "department({key}):?query:",
+          "name": "departmentObjectPage",
+          "target": "departmentObjectPage"
+        },
+        {
+          "pattern": "department({key})/eMPLOYEES({key2}):?query:",
           "name": "employeesObjectPage",
           "target": "employeesObjectPage"
         }
       ],
       "targets": {
-        "employeesList": {
+        "departmentList": {
           "type": "Component",
-          "id": "employeesList",
+          "id": "departmentList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/employees",
+              "contextPath": "/department",
               "variantManagement": "Page",
               "navigation": {
-                "employees": {
+                "department": {
                   "detail": {
-                    "route": "employeesObjectPage"
+                    "route": "departmentObjectPage"
                   }
                 }
               },
@@ -116,8 +121,25 @@
                     "type": "ResponsiveTable"
                   }
                 }
-              },
-              "initialLoad": "Enabled"
+              }
+            }
+          }
+        },
+        "departmentObjectPage": {
+          "type": "Component",
+          "id": "departmentObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/department",
+              "navigation": {
+                "eMPLOYEES": {
+                  "detail": {
+                    "route": "employeesObjectPage"
+                  }
+                }
+              }
             }
           }
         },
@@ -128,7 +150,7 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/employees"
+              "contextPath": "/department/eMPLOYEES"
             }
           }
         }

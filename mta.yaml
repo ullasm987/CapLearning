@@ -1,85 +1,57 @@
 _schema-version: 3.3.0
 ID: cap1
-description: A simple CAP project.
 version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
 modules:
   - name: cap1-srv
     type: nodejs
     path: gen/srv
-    requires:
-      - name: cap1-db
-      - name: cap1-auth
-    provides:
-      - name: srv-api
-        properties:
-          srv-url: ${default-url}
     parameters:
-      buildpack: nodejs_buildpack
       instances: 1
+      buildpack: nodejs_buildpack
     build-parameters:
       builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: cap1-auth
+      - name: cap1-db
+
   - name: cap1-db-deployer
     type: hdb
     path: gen/db
-    requires:
-      - name: cap1-db
     parameters:
       buildpack: nodejs_buildpack
-  - name: cap1-app-content
-    type: com.sap.application.content
-    path: .
     requires:
-      - name: cap1-repo-host
-        parameters:
-          content-target: true
-    build-parameters:
-      build-result: resources
-      requires:
-        - artifacts:
-            - umproject1.zip
-          name: umproject1
-          target-path: resources/
-  - name: umproject1
-    type: html5
-    path: app/project1
-    build-parameters:
-      build-result: dist
-      builder: custom
-      commands:
-        - npm install
-        - npm run build:cf
-      supported-platforms:
-        []
+      - name: cap1-db
+
+  - name: cap1-approuter
+    type: approuter.nodejs
+    path: app/project1/router
+    parameters:
+      memory: 256M
+      keep-existing-routes: true
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          url: ~{srv-url}
+          forwardAuthToken: true
+
+      - name: cap1-auth
+
 resources:
-  - name: cap1-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
-  - name: cap1-repo-host
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-name: cap1-html5-service
-      service-plan: app-host
-  - name: cap1-destination-service
-    type: org.cloudfoundry.managed-service
-    parameters:
-      config:
-        HTML5Runtime_enabled: false
-        init_data:
-          instance:
-            destinations:
-              - Authentication: NoAuthentication
-                Name: ui5
-                ProxyType: Internet
-                Type: HTTP
-                URL: https://ui5.sap.com
-            existing_destinations_policy: update
-        version: 1.0.0
-      service: destination
-      service-name: cap1-destination-service
-      service-plan: lite
   - name: cap1-auth
     type: org.cloudfoundry.managed-service
     parameters:
@@ -89,17 +61,12 @@ resources:
       config:
         xsappname: cap1-${org}-${space}
         tenant-mode: dedicated
-        role-collections:
-          - name: 'Manager (cap1 ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.Manager'
-parameters:
-  deploy_mode: html5-repo
-  enable-parallel-deployments: true
-build-parameters:
-  before-all:
-    - builder: custom
-      commands:
-        - npm ci
-        - npx cds build --production
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+  - name: cap1-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared

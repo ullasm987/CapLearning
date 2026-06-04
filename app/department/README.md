@@ -1,31 +1,32 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Wed May 27 2026 19:29:31 GMT+0000 (Coordinated Universal Time)|
+|**Generation Date and Time**<br>Fri May 29 2026 09:36:23 GMT+0000 (Coordinated Universal Time)|
 |**App Generator**<br>SAP Fiori Application Generator|
 |**App Generator Version**<br>1.25.0|
 |**Generation Platform**<br>SAP Business Application Studio|
 |**Template Used**<br>List Report Page V4|
 |**Service Type**<br>Local CAP|
 |**Service URL**<br>http://localhost:4004/odata/v4/employee-department/|
-|**Module Name**<br>project1|
-|**Application Title**<br>App Title|
+|**Module Name**<br>department|
+|**Application Title**<br>Department App|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon|
-|**UI5 Version**<br>1.148.0|
+|**UI5 Version**<br>1.148.1|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>True, see https://www.npmjs.com/package/@sap-ux/eslint-plugin-fiori-tools#rules for the eslint rules.|
-|**Main Entity**<br>employees|
+|**Main Entity**<br>department|
+|**Navigation Entity**<br>eMPLOYEES|
 
-## project1
+## department
 
-An SAP Fiori application.
+A Department Application
 
 ### Starting the generated app
 
 -   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  To launch the generated app, start your CAP project:  and navigate to the following location in your browser:
 
-http://localhost:4004/project1/index.html
+http://localhost:4004/department/index.html
 
 #### Pre-requisites:
 
